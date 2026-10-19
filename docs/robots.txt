@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://icelandic123.github.io/tankmate-check/sitemap.xml
