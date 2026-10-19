@@ -10,6 +10,7 @@ from compat import check, gal
 SITE = os.environ.get("SITE_URL", "https://tankmatecheck.example").rstrip("/")
 BASE = os.environ.get("BASE_PATH", "").rstrip("/")   # e.g. "/tankmates" on a GitHub project page
 TAG = os.environ.get("AMAZON_TAG", "")
+GSC = os.environ.get("GSC_VERIFY", "")  # Search Console HTML-tag verification token (home page only)
 NAME = "Tankmate Check"
 OUT = os.environ.get("OUT_DIR", os.path.join(ROOT, "site"))
 TODAY = datetime.date.today().isoformat()
@@ -98,7 +99,7 @@ def page(path, title, desc, body, extra_head=""):
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{canon}">
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="article">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%9F%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="{u('/style.css')}">{extra_head}</head><body>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%9F%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="{u('/style.css')}">{extra_head}{f'<meta name="google-site-verification" content="{e(GSC)}">' if GSC and path == "/" else ""}</head><body>
 <header><a class="logo" href="{u('/')}">🐟 {NAME}</a><nav><a href="{u('/species/')}">Species</a><a href="{u('/stocking/')}">Stocking ideas</a><a href="{u('/compare/')}">Compare</a><a href="{u('/#checker')}">Tank checker</a><a href="{u('/about/')}">How it works</a></nav></header>
 <main>{body}</main>
 <footer><p>{NAME} checks freshwater aquarium compatibility from each species' temperature, pH, size, temperament and diet. It is a starting point, not a guarantee: individual fish vary, so watch new tankmates closely.</p>
